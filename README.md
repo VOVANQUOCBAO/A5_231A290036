@@ -1,40 +1,29 @@
-# A5_231A290036
+# Lab A5 - Chuyển màn hình và truyền dữ liệu bằng Intent
 
-Võ Văn Quốc Bảo · MSSV 231A290036 · INT4211 · 20/10/2026
+**Họ tên:** Võ Văn Quốc Bảo
 
-## Tệp cần nộp
+**MSSV:** 231A290036
 
-- **Project Android Studio:** toàn bộ thư mục gốc này (app/, gradle/, gradlew.bat và các tệp cấu hình).
-- **Báo cáo PDF:** [BaoCao/BaoCao_A5_231A290036.pdf](BaoCao/BaoCao_A5_231A290036.pdf).
-- **Bản báo cáo có thể chỉnh sửa:** BaoCao/BaoCao_A5_231A290036.md.
-- **Ảnh minh chứng gốc:** AnhMinhChung/.
-- **Video demo:** [Video/Demo_A5_231A290036.mp4](Video/Demo_A5_231A290036.mp4), 62.6 giây, không âm thanh, quay trực tiếp từ máy ảo.
-- **APK cài thử:** [APK/A5_231A290036-debug.apk](APK/A5_231A290036-debug.apk).
-- **Kết quả kiểm thử, Logcat và lint:** KiemThu/.
-- **Repository Private:** https://github.com/VOVANQUOCBAO/A5_231A290036 . Không mời giảng viên theo yêu cầu của chủ tài khoản.
+**Học phần:** INT4211 - Lập trình trên các thiết bị di động
 
-## Mở và chạy bằng Android Studio
+## Nội dung
 
-1. Chọn **File → Open**, chọn chính thư mục **A5_231A290036** này, không chọn riêng thư mục app.
-2. Chờ Gradle Sync. Dùng **Gradle JDK: Embedded JDK (jbr)** của Android Studio; máy này đã dùng JBR 25.0.3. Mã Java đặt source/target 17.
-3. SDK Manager cần Android SDK Platform 35 và Build Tools 36.0.0 (môi trường đã cài). Nếu SDK ở đường dẫn khác, để Android Studio cập nhật local.properties.
-4. Chọn module **app**, chọn thiết bị API 24 trở lên, bấm **Run**. A7 nên dùng API 33+ để thấy hộp thoại thông báo; bật camera Emulated trên máy ảo.
-5. Muốn chỉ build: chạy `.\gradlew.bat :app:assembleDebug :app:lintDebug` tại thư mục gốc. Lần đầu trên máy khác cần mạng để tải Gradle và thư viện.
+- Truyền thông tin liên hệ giữa MainActivity và DetailActivity bằng Parcelable.
+- Sửa họ tên và nhận kết quả trả về bằng Activity Result API.
+- Mở ứng dụng gọi điện, trang web và chia sẻ văn bản bằng Intent.
+- NC2: truyền danh sách Contact bằng Parcelable.
+- NC4: nhận văn bản chia sẻ từ ứng dụng khác.
 
-## Phần nâng cao
+## Báo cáo và demo
 
-NC2: truyền danh sách Parcelable; NC4: nhận ACTION_SEND text/plain.
+- [Báo cáo](BaoCao/BaoCao_A5_231A290036.pdf)
+- [Video demo](Video/Demo_A5_231A290036.mp4)
+- [Ảnh minh chứng](AnhMinhChung/)
 
-## Kiểm chứng
+## Cách chạy
 
-Đã build APK, cài và chạy trên Android Emulator Medium Phone **API 36**. Lượt chính đạt **10 phép kiểm tra**. Các bước và kết quả cụ thể trong báo cáo; log thô nằm ở KiemThu/instrumentation_full.txt và KiemThu/logcat_full.txt. A7 còn có lượt `denial` và `bad_registration` riêng.
+1. Mở thư mục `A5_231A290036` bằng Android Studio.
+2. Chờ Gradle Sync, chọn module `app`.
+3. Chọn máy ảo hoặc điện thoại Android API 24 trở lên và bấm **Run**.
 
-Chạy lại: mở máy ảo, mở PowerShell ở thư mục này và chạy `powershell -ExecutionPolicy Bypass -File .\KiemThu\Chay_KiemThu.ps1`. A7 dùng thêm `-Mode denial` và `-Mode bad_registration`; lượt full/denial xóa dữ liệu riêng của app A7 để thử quyền từ đầu. Để kết quả định dạng và nhãn hệ thống trùng minh chứng, dùng máy ảo ngôn ngữ English (US).
-
-Các ca nhập ký tự sai ở A4 được runner đưa trực tiếp vào EditText để kiểm chứng xử lý dữ liệu độc lập với bàn phím số. Không có mã tự chạy demo hoặc cửa hậu kiểm thử trong ứng dụng chính. Runner nằm riêng trong app/src/androidTest/.
-
-Android Lint: **0 lỗi**, còn cảnh báo về phiên bản phụ thuộc/SDK và một số gợi ý giao diện/tài nguyên; xem tệp lint đi kèm. Chưa kiểm chứng trên điện thoại thật hoặc trên mọi phiên bản Android từ API 24.
-
-## Nguồn yêu cầu
-
-Lab_A5_HuongDanThucHanh.pdf do người dùng cung cấp. Công nghệ: **Java + XML**, không dùng Compose/Kotlin cho mã nguồn ứng dụng.
+Project sử dụng Java + XML, Java 17 và compileSdk 35.

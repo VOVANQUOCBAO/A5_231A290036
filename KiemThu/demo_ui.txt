@@ -1,6 +1,0 @@
-PASS | Entered name, phone and email on MainActivity
-PASS | Contact details visible
-PASS | RESULT_OK updates name on MainActivity
-PASS | ACTION_DIAL shows number; no call placed
-PASS | Real system share chooser visible; no message sent
-ALL PASSED
