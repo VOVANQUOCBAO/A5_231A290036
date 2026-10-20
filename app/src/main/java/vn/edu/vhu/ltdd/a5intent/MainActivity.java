@@ -1,136 +1,85 @@
 package vn.edu.vhu.ltdd.a5intent;
- 
+
+
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
- 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.IntentCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
- 
-public class MainActivity extends AppCompatActivity {
- 
-    // TODO: thay 231A290036 b ng MSSV c a b n
-    private static final String TAG = "A5_231A290036";
- 
-    /** Khóa dùng chung cho hai màn hình — luôn khai báo h ng s , không gõ chu i hai l n. */
-    public static final String EXTRA_CONTACT = "extra_contact";
-    public static final String EXTRA_NGUOI_GUI = "extra_nguoi_gui";
- 
-    private EditText edtHoTen, edtDienThoai, edtEmail;
+import java.util.ArrayList;
+
+public class MainActivity extends LabActivity {
+    public static final String EXTRA_CONTACT="extra_contact";
+    public static final String EXTRA_NGUOI_GUI="extra_nguoi_gui";
+    public static final String EXTRA_CONTACTS="extra_contacts";
+    private EditText edtHoTen,edtDienThoai,edtEmail;
     private TextView tvKetQuaTraVe;
- 
-    /** B  nh n k t qu  tr  v  t  DetailActivity (thay cho onActivityResult đã l i th i). */
-    private final ActivityResultLauncher<Intent> chiTietLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    Contact daSua = IntentCompat.getParcelableExtra(
-                            result.getData(), EXTRA_CONTACT, Contact.class);
-                    if (daSua != null) {
-                        edtHoTen.setText(daSua.getHoTen());
-                        tvKetQuaTraVe.setText(getString(R.string.returned, daSua.getHoTen()));
-                        Log.d(TAG, "Nh n k t qu  tr  v : " + daSua.getHoTen());
-                    }
-                } else {
-                    tvKetQuaTraVe.setText(R.string.returned_cancel);
-                }
-            });
- 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
-            return insets;
+    private final ActivityResultLauncher<Intent> chiTietLauncher=registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),result->{
+            Log.d(TAG,"resultCode="+result.getResultCode());
+            if(result.getResultCode()==RESULT_OK && result.getData()!=null) {
+                Contact contact=IntentCompat.getParcelableExtra(result.getData(),EXTRA_CONTACT,Contact.class);
+                if(contact!=null) {
+                    edtHoTen.setText(contact.getHoTen()); edtDienThoai.setText(contact.getDienThoai());
+                    edtEmail.setText(contact.getEmail());
+                    tvKetQuaTraVe.setText(getString(R.string.returned,contact.getHoTen()));
+                    Log.d(TAG,"Nhận kết quả trả về: "+contact.getHoTen());
+                } else tvKetQuaTraVe.setText(R.string.no_data);
+            } else tvKetQuaTraVe.setText(R.string.returned_cancel);
         });
- 
-        edtHoTen = findViewById(R.id.edtHoTen);
-        edtDienThoai = findViewById(R.id.edtDienThoai);
-        edtEmail = findViewById(R.id.edtEmail);
-        tvKetQuaTraVe = findViewById(R.id.tvKetQuaTraVe);
- 
-        Button btnChiTiet = findViewById(R.id.btnChiTiet);
-        Button btnGoi = findViewById(R.id.btnGoi);
-        Button btnWeb = findViewById(R.id.btnWeb);
-        Button btnChiaSe = findViewById(R.id.btnChiaSe);
- 
-        btnChiTiet.setOnClickListener(v -> moManHinhChiTiet());
-        btnGoi.setOnClickListener(v -> goiDien());
-        btnWeb.setOnClickListener(v -> moTrangWeb());
-        btnChiaSe.setOnClickListener(v -> chiaSe());
+    @Override protected void onCreate(Bundle state) {
+        super.onCreate(state); showLayout(R.layout.activity_main);
+        edtHoTen=findViewById(R.id.edtHoTen); edtDienThoai=findViewById(R.id.edtDienThoai);
+        edtEmail=findViewById(R.id.edtEmail); tvKetQuaTraVe=findViewById(R.id.tvKetQuaTraVe);
+        findViewById(R.id.btnChiTiet).setOnClickListener(v->moChiTiet());
+        findViewById(R.id.btnGoi).setOnClickListener(v->goiDien());
+        findViewById(R.id.btnWeb).setOnClickListener(v->moAnToan(new Intent(Intent.ACTION_VIEW,Uri.parse(getString(R.string.school_url)))));
+        findViewById(R.id.btnChiaSe).setOnClickListener(v->chiaSe());
+        if(state==null) nhanChiaSe(getIntent());
+        else tvKetQuaTraVe.setText(state.getString("returned",getString(R.string.returned_none)));
     }
- 
-    // ============ INTENT T NG MINH (explicit) ============
- 
-    private void moManHinhChiTiet() {
-        String hoTen = edtHoTen.getText().toString().trim();
-        if (hoTen.isEmpty()) {
-            edtHoTen.setError(getString(R.string.err_empty));
-            return;
-        }
-        Contact contact = new Contact(hoTen,
-                edtDienThoai.getText().toString().trim(),
-                edtEmail.getText().toString().trim());
- 
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(EXTRA_CONTACT, contact);          // đóng gói c  đ i t ng
-        intent.putExtra(EXTRA_NGUOI_GUI, TAG);            // d  li u đ n gi n kèm theo
-        chiTietLauncher.launch(intent);                   // m  và CH  k t qu  tr  v
+    private void moChiTiet() {
+        String name=edtHoTen.getText().toString().trim();
+        edtHoTen.setError(null);
+        if(name.isEmpty()) { edtHoTen.setError(getString(R.string.err_empty)); edtHoTen.requestFocus(); return; }
+        Contact contact=new Contact(name,edtDienThoai.getText().toString().trim(),edtEmail.getText().toString().trim());
+        ArrayList<Contact> list=new ArrayList<>(); list.add(contact);
+        Intent intent=new Intent(this,DetailActivity.class);
+        Bundle extras=new Bundle(); extras.putParcelable(EXTRA_CONTACT,contact); extras.putString(EXTRA_NGUOI_GUI,TAG);
+        intent.putExtras(extras);
+        // NC2: truyền và đọc lại một danh sách Parcelable thật.
+        intent.putParcelableArrayListExtra(EXTRA_CONTACTS,list);
+        chiTietLauncher.launch(intent);
     }
- 
-    // ============ INTENT NG M Đ NH (implicit) ============
- 
     private void goiDien() {
-        String sdt = edtDienThoai.getText().toString().trim();
-        if (sdt.isEmpty()) {
-            edtDienThoai.setError(getString(R.string.err_empty));
-            return;
-        }
-        // ACTION_DIAL ch  m  màn hình g i v i s  đã đi n s n → KHÔNG c n xin quy n
-        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + sdt));
-        moAnToan(intent);
+        String phone=edtDienThoai.getText().toString().trim(); edtDienThoai.setError(null);
+        if(phone.isEmpty()) { edtDienThoai.setError(getString(R.string.err_empty)); edtDienThoai.requestFocus(); return; }
+        moAnToan(new Intent(Intent.ACTION_DIAL,Uri.fromParts("tel",phone,null)));
     }
- 
-    private void moTrangWeb() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.school_url)));
-        moAnToan(intent);
-    }
- 
     private void chiaSe() {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
-        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text,
-                edtHoTen.getText().toString(), edtDienThoai.getText().toString()));
-        // B c trong b  ch n đ  ng i dùng t  ch n ng d ng
-        startActivity(Intent.createChooser(intent, getString(R.string.share_title)));
+        Intent intent=new Intent(Intent.ACTION_SEND); intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.share_subject));
+        intent.putExtra(Intent.EXTRA_TEXT,getString(R.string.share_text,edtHoTen.getText().toString(),edtDienThoai.getText().toString()));
+        moAnToan(Intent.createChooser(intent,getString(R.string.share_title)));
     }
- 
-    /**
-     * T  Android 11, resolveActivity() th ng tr  v  null do c  ch  gi i h n hi n th  gói
-     * (package visibility). Cách an toàn nh t là b t ngo i l  ActivityNotFoundException.
-     */
     private void moAnToan(Intent intent) {
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, R.string.err_no_app, Toast.LENGTH_SHORT).show();
-            Log.w(TAG, "Không có ng d ng nào x  lý: " + intent.getAction(), e);
+        try { startActivity(intent); }
+        catch(ActivityNotFoundException e) { Toast.makeText(this,R.string.err_no_app,Toast.LENGTH_SHORT).show(); Log.w(TAG,"Không có ứng dụng xử lý Intent",e); }
+    }
+    private void nhanChiaSe(Intent intent) {
+        if(Intent.ACTION_SEND.equals(intent.getAction()) && "text/plain".equals(intent.getType())) {
+            String text=intent.getStringExtra(Intent.EXTRA_TEXT);
+            if(text!=null) { edtHoTen.setText(text); tvKetQuaTraVe.setText(R.string.received_share); Log.d(TAG,"Đã nhận ACTION_SEND text/plain"); }
         }
+    }
+    @Override protected void onNewIntent(Intent intent) { super.onNewIntent(intent); setIntent(intent); nhanChiaSe(intent); }
+    @Override protected void onSaveInstanceState(Bundle state) {
+        state.putString("returned",tvKetQuaTraVe.getText().toString()); super.onSaveInstanceState(state);
     }
 }

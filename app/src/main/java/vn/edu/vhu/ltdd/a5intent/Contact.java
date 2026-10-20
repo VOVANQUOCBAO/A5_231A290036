@@ -3,11 +3,7 @@ package vn.edu.vhu.ltdd.a5intent;
 import android.os.Parcel;
 import android.os.Parcelable;
  
-/**
- * Đ i t ng đ c đóng gói đ  truy n qua Intent.
- * Parcelable nhanh h n Serializable vì Android t  sinh mã đ c/ghi thay cho c  ch  ph n chi u.
- * M o: gõ "implements Parcelable" r i nh n Alt+Enter, Android Studio sinh s n ph n khung.
- */
+
 public class Contact implements Parcelable {
  
     private String hoTen;
@@ -20,7 +16,7 @@ public class Contact implements Parcelable {
         this.email = email;
     }
  
-    /** Đ c l i d  li u ĐÚNG TH  T  đã ghi trong writeToParcel. */
+    
     protected Contact(Parcel in) {
         hoTen = in.readString();
         dienThoai = in.readString();
