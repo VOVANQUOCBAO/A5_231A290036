@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">A5_231A290036</string>
+    <string name="title">Lab A5 – Danh b  mini</string>
+    <string name="student">Nguy n Văn A – MSSV 231A290036</string>
+    <string name="hint_name">H  và tên</string>
+    <string name="hint_phone">S  đi n tho i</string>
+    <string name="hint_email">Email</string>
+    <string name="open_detail">Xem chi ti t (m  màn hình 2)</string>
+    <string name="returned_none">Ch a có d  li u tr  v </string>
+    <string name="returned">Màn hình 2 tr  v : %1$s</string>
+    <string name="returned_cancel">Ng i dùng đã h y, không có d  li u tr  v </string>
+    <string name="section_implicit">Intent ng m đ nh (g i ng d ng khác)</string>
+    <string name="call">G i</string>
+    <string name="web">Web tr ng</string>
+    <string name="share">Chia s </string>
+    <string name="detail_title">Chi ti t liên h </string>
+    <string name="detail_format">H  tên: %1$s\nĐi n tho i: %2$s\nEmail: %3$s</string>
+    <string name="sent_by">D  li u đ c g i t : %1$s</string>
+    <string name="hint_new_name">S a h  tên r i b m L u</string>
+    <string name="save_back">L u &amp; quay l i</string>
+    <string name="cancel">H y</string>
+    <string name="no_data">Không nh n đ c d  li u</string>
+    <string name="err_empty">Không đ c đ  tr ng</string>
+    <string name="err_no_app">Máy ch a có ng d ng phù h p đ  m </string>
+    <string name="school_url">https://vhu.edu.vn</string>
+    <string name="share_subject">Thông tin liên h </string>
+    <string name="share_text">Liên h : %1$s – %2$s</string>
+    <string name="share_title">Chia s  qua</string>
+</resources>
