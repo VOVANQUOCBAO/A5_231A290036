@@ -1,0 +1,44 @@
+INSTRUMENTATION_STATUS: stream=PASS | A5-T01: explicit Intent receives Contact and sender
+
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=PASS | A5-NC2: Parcelable list received
+
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=PASS | A5-T02: RESULT_OK updates name
+
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=PASS | A5-T03: Back returns RESULT_CANCELED
+
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=PASS | A5-T04: Intent and unsaved draft survive rotation
+
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=PASS | A5-T05: share chooser returns with form preserved
+
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=PASS | A5-extra: ACTION_DIAL returns safely
+
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=PASS | A5-NC4: receives external ACTION_SEND text/plain
+
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=PASS | A5-extra: empty name prevents navigation
+
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_STATUS: stream=PASS | A5-extra: null Contact disables Save safely
+
+INSTRUMENTATION_STATUS_CODE: 0
+INSTRUMENTATION_RESULT: stream=
+PASS | A5-T01: explicit Intent receives Contact and sender
+PASS | A5-NC2: Parcelable list received
+PASS | A5-T02: RESULT_OK updates name
+PASS | A5-T03: Back returns RESULT_CANCELED
+PASS | A5-T04: Intent and unsaved draft survive rotation
+PASS | A5-T05: share chooser returns with form preserved
+PASS | A5-extra: ACTION_DIAL returns safely
+PASS | A5-NC4: receives external ACTION_SEND text/plain
+PASS | A5-extra: empty name prevents navigation
+PASS | A5-extra: null Contact disables Save safely
+ALL PASSED
+
+INSTRUMENTATION_CODE: -1
